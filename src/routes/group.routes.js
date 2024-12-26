@@ -8,5 +8,6 @@ router.put("/groups/:id", groupController.update); // Update group by ID
 router.delete("/groups/:id", groupController.delete); // Delete group by ID
 router.get("/groups/:id", groupController.getById); // Get group by ID (with associated users)
 router.get("/groups", groupController.list); // List all groups (with associated users)
+router.post("/groups/assign", groupController.assignUser); // Assign user to group
 
 module.exports = router;
