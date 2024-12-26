@@ -61,7 +61,10 @@ const groupController = {
         try {
             const groups = await Group.findAll({
                 include: [
-                    { model: User }, // Include associated users for each group
+                    {
+                        model: User, // Include associated users for each group
+                        through: { attributes: [] },
+                    }, 
                 ],
             });
             res.json(groups);
@@ -72,25 +75,27 @@ const groupController = {
 
     // Assign user to group
     async assignUser(req, res) {
-        try{
-            const { userId, groupId} = req.body;
+        try {
+            const { userId, groupId } = req.body;
 
             // Check wether user or group exists
             const user = await User.findByPk(userId);
             const group = await Group.findByPk(groupId);
 
             if (!user || !group) {
-                return res.status(404).json({ error: "User or group not found" });
+                return res
+                    .status(404)
+                    .json({ error: "User or group not found" });
             }
 
             // Add the relationship
             await user.addGroup(group);
 
             res.status(200).json({ message: "User assigned to group" });
-         } catch (error){
+        } catch (error) {
             res.status(400).json({ error: error.message });
-         }
-    }
+        }
+    },
 };
 
 module.exports = groupController;
