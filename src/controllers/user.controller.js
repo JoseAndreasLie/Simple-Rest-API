@@ -57,14 +57,7 @@ const userController = {
     // List all users
     async list(req, res) {
         try {
-            const users = await User.findAll({
-                include: [
-                    {
-                        model: Group, // Include groups associated with this user
-                        through: { attributes: [] }, // Don't include the join table
-                    },
-                ],
-            });
+            const users = await User.findAll();
             res.json(users);
         } catch (error) {
             res.status(400).json({ error: error.message });
